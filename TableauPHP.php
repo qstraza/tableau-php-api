@@ -5,7 +5,7 @@ namespace qstraza\TableauPHP;
 /**
  * Tableau class used to make API calls based on Tableau docs.
  */
-class TableauAPI {
+class TableauPHP {
   private $url;
   private $adminUser;
   private $adminPassword;
