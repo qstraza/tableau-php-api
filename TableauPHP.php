@@ -1,9 +1,9 @@
-<?php
+PHP<?php
 
-namespace qstraza\TableauPHP;
+namespace Qstraza\TableauPHP;
 
 /**
- * Tableau class used to make API calls based on Tableau docs.
+ * Tableau class used to make PHP calls based on Tableau docs.
  */
 class TableauPHP {
   private $url;
@@ -15,7 +15,7 @@ class TableauPHP {
   private $siteId;
 
   /**
-   * TableauAPI constructor.
+   * TableauPHP constructor.
    *
    * @param string $url
    *   URL of Tableau server.
@@ -23,6 +23,8 @@ class TableauPHP {
    *   Name of the user which will be making the calls (Admin user).
    * @param string $password
    *   Password of the user.
+   * @param $siteId
+   *   Site ID on which actions will be performed.
    */
   public function __construct($url, $user, $password, $siteId) {
     $this->url = $url;
@@ -32,10 +34,10 @@ class TableauPHP {
   }
 
   /**
-   * Method which is used to build a request and send it over to Tableau API.
+   * Method which is used to build a request and send it over to Tableau .
    *
    * @param string $action
-   *   API endpoint name.
+   *   PHP endpoint name.
    * @param string $body
    *   Body of the request.
    * @param string $method
@@ -91,7 +93,7 @@ class TableauPHP {
   }
 
   /**
-   * Signs in to Tableau API and saves a token for further API calls.
+   * Signs in to Tableau PHP and saves a token for further PHP calls.
    *
    * @throws \Exception
    */
@@ -116,7 +118,7 @@ class TableauPHP {
   }
 
   /**
-   * Signs out from Tableau API.
+   * Signs out from Tableau PHP.
    *
    * @throws \Exception
    */
@@ -244,7 +246,7 @@ class TableauPHP {
   }
 
   /**
-   * Sets API Version.
+   * Sets PHP Version.
    */
   public function setApiVersion($apiVersion) {
     $this->apiVersion = $apiVersion;
