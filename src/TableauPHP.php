@@ -13,6 +13,7 @@ class TableauPHP {
   private $apiVersion = '2.5';
   private $ticket;
   private $siteId;
+  private $siteName;
 
   /**
    * TableauPHP constructor.
@@ -23,14 +24,14 @@ class TableauPHP {
    *   Name of the user which will be making the calls (Admin user).
    * @param string $password
    *   Password of the user.
-   * @param $siteId
-   *   Site ID on which actions will be performed.
+   * @param $siteName
+   *   Site Name on which actions will be performed.
    */
-  public function __construct($url, $user, $password, $siteId) {
+  public function __construct($url, $user, $password, $siteName) {
     $this->url = $url;
     $this->adminUser = $user;
     $this->adminPassword = $password;
-    $this->siteId = $siteId;
+    $this->siteName = $siteName;
   }
 
   /**
@@ -103,12 +104,13 @@ class TableauPHP {
         "name" => $this->adminUser,
         "password" => $this->adminPassword,
         "site" => [
-          "contentUrl" => "",
+          "contentUrl" => strtolower($this->siteName) == "default" ? "" : $this->siteName,
         ],
       ],
     ];
     $response = $this->sendReq('auth/signin', $body, "POST");
     if (isset($response['credentials']) && isset($response['credentials']['token'])) {
+      $this->siteId = $response['credentials']['site']['id'];
       $this->token = $response['credentials']['token'];
       return TRUE;
     }
@@ -214,6 +216,13 @@ class TableauPHP {
     $body = [
       "username" => $username,
     ];
+
+    // If user wants to get a Ticket for non-default site, we need to included
+    // it in to the body of the request.
+    if (strtolower($this->siteName) != "default") {
+      $body['target_site'] = $this->siteName;
+    }
+
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($body));
     curl_setopt($curl, CURLINFO_HEADER_OUT, TRUE);
 
